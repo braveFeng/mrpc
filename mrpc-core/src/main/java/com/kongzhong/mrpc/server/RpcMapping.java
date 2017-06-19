@@ -2,6 +2,7 @@ package com.kongzhong.mrpc.server;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.kongzhong.mrpc.exception.RpcException;
 import com.kongzhong.mrpc.interceptor.RpcInteceptor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -33,15 +34,19 @@ public class RpcMapping {
     }
 
     public void addInterceptor(RpcInteceptor inteceptor) {
-        if (null != inteceptor) {
-            log.info("add interceptor [{}]", inteceptor);
-            this.inteceptors.add(inteceptor);
+        if (null == inteceptor) {
+            throw new RpcException("Inteceptor not is null");
         }
+        log.info("Add interceptor {}", inteceptor.toString());
+        this.inteceptors.add(inteceptor);
     }
 
     public void addInterceptors(List<RpcInteceptor> inteceptors) {
-        if (null != inteceptors && !inteceptors.isEmpty()) {
-            log.info("add interceptors {}", inteceptors.toString());
+        if (null == inteceptors) {
+            throw new RpcException("inteceptors not is null");
+        }
+        if (!inteceptors.isEmpty()) {
+            log.info("add inteceptors {}", inteceptors.toString());
             this.inteceptors.addAll(inteceptors);
         }
     }

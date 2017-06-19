@@ -38,7 +38,7 @@
         <dependency>
             <groupId>com.kongzhong.mrpc</groupId>
             <artifactId>mrpc-metric-influxdb</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>${mrpc-metrics.version}</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>

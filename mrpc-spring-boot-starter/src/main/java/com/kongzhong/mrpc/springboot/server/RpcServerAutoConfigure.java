@@ -52,12 +52,12 @@ public class RpcServerAutoConfigure {
     @Autowired
     private ConfigurableBeanFactory configurableBeanFactory;
 
-    protected RpcMapping rpcMapping = RpcMapping.me();
+    private RpcMapping rpcMapping = RpcMapping.me();
 
     /**
      * 序列化类型，默认protostuff
      */
-    protected RpcSerialize serialize;
+    private RpcSerialize serialize;
 
     @Autowired
     private RpcServerProperties rpcServerProperties;
@@ -65,34 +65,37 @@ public class RpcServerAutoConfigure {
     /**
      * 服务注册实例
      */
-    protected ServiceRegistry serviceRegistry;
+    private ServiceRegistry serviceRegistry;
 
     /**
      * 传输协议选择
      */
-    protected TransferSelector transferSelector;
+    private TransferSelector transferSelector;
 
     /**
      * 拦截器列表, 默认添加性能监控拦截器
      */
-    protected List<RpcInteceptor> interceptorList;
+    private List<RpcInteceptor> interceptorList;
 
+    /**
+     * 是否是测试环境
+     */
     private String isTestEnv;
 
     /**
      * netty服务端配置
      */
-    protected NettyConfig nettyConfig;
+    private NettyConfig nettyConfig;
 
-    protected static final ListeningExecutorService TPE = MoreExecutors.listeningDecorator((ThreadPoolExecutor) RpcThreadPool.getExecutor(16, -1));
+    private static final ListeningExecutorService TPE = MoreExecutors.listeningDecorator((ThreadPoolExecutor) RpcThreadPool.getExecutor(16, -1));
 
     @Bean
-    public InitBean initBean() {
-        return new InitBean(rpcMapping);
+    public RpcServerInitBean initBean() {
+        return new RpcServerInitBean(rpcMapping);
     }
 
     @Bean
-    @ConditionalOnBean(InitBean.class)
+    @ConditionalOnBean(RpcServerInitBean.class)
     public BeanFactoryAware beanFactoryAware() {
 
         this.isTestEnv = environment.getProperty(Const.TEST_KEY, "false");
@@ -235,11 +238,11 @@ public class RpcServerAutoConfigure {
                 //注册服务
                 for (String serviceName : rpcMapping.getHandlerMap().keySet()) {
                     serviceRegistry.register(serviceName);
-                    log.info("=> [{}] - [{}]", serviceName, rpcServerProperties.getAddress());
+                    log.info("Register => [{}] - [{}]", serviceName, rpcServerProperties.getAddress());
                 }
 
-                log.info("publish services finished!");
-                log.info("mrpc server start with => {}", port);
+                log.info("Publish services finished!");
+                log.info("RPC server started with => {}", port);
 
                 this.listenDestroy();
 

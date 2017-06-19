@@ -148,13 +148,13 @@ public class SimpleRpcServer {
                 //注册服务
                 for (String serviceName : rpcMapping.getHandlerMap().keySet()) {
                     serviceRegistry.register(serviceName);
-                    log.info("=> [{}] - [{}]", serviceName, serverAddress);
+                    log.info("Register => [{}] - [{}]", serviceName, serverAddress);
                 }
 
                 this.listenDestroy();
 
-                log.info("publish services finished!");
-                log.info("mrpc server start with => {}", port);
+                log.info("Publish services finished!");
+                log.info("RPC server started with => {}", port);
 
                 future.channel().closeFuture().sync();
             } else {

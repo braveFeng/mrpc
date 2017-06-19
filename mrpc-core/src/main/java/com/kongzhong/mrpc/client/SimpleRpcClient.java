@@ -10,6 +10,8 @@ import com.kongzhong.mrpc.config.ClientConfig;
 import com.kongzhong.mrpc.config.DefaultConfig;
 import com.kongzhong.mrpc.enums.TransportEnum;
 import com.kongzhong.mrpc.exception.InitializeException;
+import com.kongzhong.mrpc.exception.RpcException;
+import com.kongzhong.mrpc.interceptor.RpcInteceptor;
 import com.kongzhong.mrpc.registry.DefaultDiscovery;
 import com.kongzhong.mrpc.registry.ServiceDiscovery;
 import com.kongzhong.mrpc.serialize.RpcSerialize;
@@ -68,6 +70,8 @@ public class SimpleRpcClient {
      */
     protected List<Class<?>> referers = Lists.newArrayList();
 
+    protected List<RpcInteceptor> inteceptors = Lists.newArrayList();
+
     public SimpleRpcClient() {
     }
 
@@ -90,7 +94,7 @@ public class SimpleRpcClient {
         if (!isInit) {
             this.init();
         }
-        return (T) Reflection.newProxy(rpcInterface, new SimpleClientProxy<T>());
+        return (T) Reflection.newProxy(rpcInterface, new SimpleClientProxy<T>(inteceptors));
     }
 
     private void init() {
@@ -114,11 +118,11 @@ public class SimpleRpcClient {
             }
 
             if (null == serialize) {
-                throw new InitializeException("serialize not is null.");
+                throw new InitializeException("Serialize not is null.");
             }
             TransportEnum transportEnum = TransportEnum.valueOf(transport.toUpperCase());
             if (null == transportEnum) {
-                throw new InitializeException("transport type [" + transport + "] error.");
+                throw new InitializeException("Transport type [" + transport + "] error.");
             }
             if (transportEnum.equals(TransportEnum.HTTP)) {
                 clientConfig.setHttp(true);
@@ -155,4 +159,19 @@ public class SimpleRpcClient {
         }
     }
 
+    public List<RpcInteceptor> getInteceptors() {
+        return inteceptors;
+    }
+
+    public void setInteceptors(List<RpcInteceptor> inteceptors) {
+        this.inteceptors = inteceptors;
+    }
+
+    public void addInterceptor(RpcInteceptor inteceptor) {
+        if (null == inteceptor) {
+            throw new RpcException("Inteceptor not is null");
+        }
+        log.info("Add interceptor {}", inteceptor.toString());
+        this.inteceptors.add(inteceptor);
+    }
 }

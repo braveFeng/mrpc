@@ -26,10 +26,15 @@ public class MetricsInterceptor implements RpcInteceptor {
 
     @Override
     public Object execute(Invocation invocation) throws Exception {
+
+        long begin = System.currentTimeMillis();
+
+        log.debug("metrics execute [{}]-[{}]", invocation.getRequest().getRequestId(), begin);
+
         Class<?> clazz = invocation.getTarget().getClass();
         String method = invocation.getFastMethod().getName();
         String appId = RpcContext.get().getRpcRequest().getAppId();
-        long begin = System.currentTimeMillis();
+
         try {
             Object bean = invocation.next();
             metricsUtils.success(clazz, method, metricsClient.getName(), begin);

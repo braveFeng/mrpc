@@ -18,13 +18,13 @@ import org.springframework.core.annotation.AnnotationUtils;
  * @author biezhi
  *         2017/5/13
  */
-public class InitBean implements BeanPostProcessor {
+public class RpcServerInitBean implements BeanPostProcessor {
 
-    private static final Logger log = LoggerFactory.getLogger(InitBean.class);
+    private static final Logger log = LoggerFactory.getLogger(RpcServerInitBean.class);
 
     public RpcMapping rpcMapping;
 
-    public InitBean(RpcMapping rpcMapping) {
+    public RpcServerInitBean(RpcMapping rpcMapping) {
         this.rpcMapping = rpcMapping;
     }
 

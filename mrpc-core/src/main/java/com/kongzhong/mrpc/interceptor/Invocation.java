@@ -5,6 +5,7 @@ import lombok.Data;
 import org.springframework.cglib.reflect.FastMethod;
 
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.List;
 
 /**
@@ -17,6 +18,7 @@ public class Invocation {
 
     private Object target;
     private RpcRequest request;
+    private Method method;
     private FastMethod fastMethod;
     private Object[] parameters;
 
@@ -25,6 +27,14 @@ public class Invocation {
 
     //当前Interceptor索引值，初始值：-1，范围：0-interceptors.size()-1
     private int currentIndex = -1;
+
+    public Invocation(Method method, Object target, Object[] parameters, RpcRequest request, List<RpcInteceptor> interceptors) {
+        this.method = method;
+        this.target = target;
+        this.request = request;
+        this.parameters = parameters;
+        this.interceptors = interceptors;
+    }
 
     public Invocation(FastMethod fastMethod, Object target, Object[] parameters, RpcRequest request, List<RpcInteceptor> interceptors) {
         this.fastMethod = fastMethod;
