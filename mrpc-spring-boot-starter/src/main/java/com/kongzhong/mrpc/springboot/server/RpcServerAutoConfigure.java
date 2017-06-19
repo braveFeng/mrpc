@@ -29,7 +29,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
 import java.nio.channels.spi.SelectorProvider;
@@ -40,7 +39,6 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 import static com.kongzhong.mrpc.model.Const.HEADER_REQUEST_ID;
 
-@Configuration
 @EnableConfigurationProperties(RpcServerProperties.class)
 @ConditionalOnProperty("mrpc.server.transport")
 @Slf4j
@@ -55,9 +53,11 @@ public class RpcServerAutoConfigure {
     private RpcMapping rpcMapping = RpcMapping.me();
 
     /**
-     * 序列化类型，默认protostuff
+     * 序列化类型，默认kryo
      */
     private RpcSerialize serialize;
+
+    private boolean test;
 
     @Autowired
     private RpcServerProperties rpcServerProperties;
@@ -91,15 +91,17 @@ public class RpcServerAutoConfigure {
 
     @Bean
     public RpcServerInitBean initBean() {
+        log.debug("Initializing rpc server bean");
         return new RpcServerInitBean(rpcMapping);
     }
 
     @Bean
     @ConditionalOnBean(RpcServerInitBean.class)
     public BeanFactoryAware beanFactoryAware() {
+        this.isTestEnv = rpcServerProperties.getTest();
 
-        this.isTestEnv = environment.getProperty(Const.TEST_KEY, "false");
         return (beanFactory) -> {
+            log.debug("Initializing rpc server beanFactoryAware ");
             // 注册中心
             String registry = rpcServerProperties.getRegistry();
             if (RegistryEnum.ZOOKEEPER.getName().equals(registry)) {
@@ -116,7 +118,6 @@ public class RpcServerAutoConfigure {
                 }
             }
             RpcServerAutoConfigure.this.startServer();
-
         };
     }
 
@@ -280,7 +281,7 @@ public class RpcServerAutoConfigure {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             for (String serviceName : rpcMapping.getHandlerMap().keySet()) {
                 serviceRegistry.unregister(serviceName);
-                log.debug("unregister => [{}] - [{}]", serviceName, rpcServerProperties.getAddress());
+                log.debug("Unregister => [{}] - [{}]", serviceName, rpcServerProperties.getAddress());
             }
         }));
     }

@@ -83,7 +83,10 @@ public class SimpleRpcServer {
      */
     protected NettyConfig nettyConfig;
 
-    protected static final ListeningExecutorService TPE = MoreExecutors.listeningDecorator((ThreadPoolExecutor) RpcThreadPool.getExecutor(16, -1));
+    /**
+     * 服务端处理线程池
+     */
+    protected static final ListeningExecutorService SERVER_EXECUTE_POOL = MoreExecutors.listeningDecorator((ThreadPoolExecutor) RpcThreadPool.getExecutor(16, -1));
 
     public SimpleRpcServer() {
     }
@@ -188,7 +191,7 @@ public class SimpleRpcServer {
     public static void submit(Callable<Boolean> task, final ChannelHandlerContext ctx, final RpcRequest request, final RpcResponse response) {
 
         //提交任务, 异步获取结果
-        ListenableFuture<Boolean> listenableFuture = TPE.submit(task);
+        ListenableFuture<Boolean> listenableFuture = SERVER_EXECUTE_POOL.submit(task);
 
         //注册回调函数, 在task执行完之后 异步调用回调函数
         Futures.addCallback(listenableFuture, new FutureCallback<Boolean>() {
@@ -211,12 +214,12 @@ public class SimpleRpcServer {
             public void onFailure(Throwable t) {
 //                log.error("", t);
             }
-        }, TPE);
+        }, SERVER_EXECUTE_POOL);
     }
 
     public static void submit(Callable<FullHttpResponse> task, final ChannelHandlerContext ctx) {
         //提交任务, 异步获取结果
-        ListenableFuture<FullHttpResponse> listenableFuture = TPE.submit(task);
+        ListenableFuture<FullHttpResponse> listenableFuture = SERVER_EXECUTE_POOL.submit(task);
         //注册回调函数, 在task执行完之后 异步调用回调函数
         Futures.addCallback(listenableFuture, new FutureCallback<FullHttpResponse>() {
             @Override
@@ -240,7 +243,7 @@ public class SimpleRpcServer {
             public void onFailure(Throwable t) {
                 log.error("", t);
             }
-        }, TPE);
+        }, SERVER_EXECUTE_POOL);
     }
 
     /**
@@ -250,7 +253,7 @@ public class SimpleRpcServer {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             for (String serviceName : rpcMapping.getHandlerMap().keySet()) {
                 serviceRegistry.unregister(serviceName);
-                log.debug("unregister => [{}] - [{}]", serviceName, serverAddress);
+                log.debug("Unregister => [{}] - [{}]", serviceName, serverAddress);
             }
         }));
     }

@@ -39,7 +39,7 @@ public class DefaultRegistry implements ServiceRegistry {
                 file.createNewFile();
             }
         } catch (Exception e) {
-            log.error("", e);
+            log.error("DefaultRegistry Initializing error", e);
         }
     }
 
@@ -57,7 +57,7 @@ public class DefaultRegistry implements ServiceRegistry {
             array.add(getReg(data));
             Files.write(JSONUtils.toJSONString(array), file, Charsets.UTF_8);
         } catch (Exception e) {
-            log.error("register fail", e);
+            log.error("Register service fail", e);
         }
     }
 
@@ -82,7 +82,7 @@ public class DefaultRegistry implements ServiceRegistry {
                 }
             }
         } catch (Exception e) {
-            log.error("unregister fail", e);
+            log.error("Unregister service fail", e);
         }
     }
 

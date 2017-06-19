@@ -37,7 +37,7 @@ public class RpcMapping {
         if (null == inteceptor) {
             throw new RpcException("Inteceptor not is null");
         }
-        log.info("Add interceptor {}", inteceptor.toString());
+        log.info("Add interceptor [{}]", inteceptor.toString());
         this.inteceptors.add(inteceptor);
     }
 

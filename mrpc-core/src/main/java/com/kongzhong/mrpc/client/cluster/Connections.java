@@ -53,7 +53,7 @@ public class Connections {
     /**
      * 客户端 消息处理线程池
      */
-    private static ListeningExecutorService TPE = MoreExecutors.listeningDecorator((ThreadPoolExecutor) RpcThreadPool.getExecutor(16, -1));
+    private static final ListeningExecutorService CLIENT_EXECUTE_POOL = MoreExecutors.listeningDecorator((ThreadPoolExecutor) RpcThreadPool.getExecutor(16, -1));
 
     /**
      * 服务和服务提供方客户端映射
@@ -63,11 +63,11 @@ public class Connections {
     private List<String> aliveServers = Lists.newCopyOnWriteArrayList();
 
     private static final class ConnectionsHolder {
-        private static final Connections $ = new Connections();
+        private static final Connections INSTANCE = new Connections();
     }
 
     public static Connections me() {
-        return ConnectionsHolder.$;
+        return ConnectionsHolder.INSTANCE;
     }
 
     /**
@@ -102,7 +102,7 @@ public class Connections {
         while (null == clientConfig.getTransport()) {
             sleep(1);
         }
-        TPE.submit(new SimpleRequestCallback(referNames, eventLoopGroup, remoteAddr));
+        CLIENT_EXECUTE_POOL.submit(new SimpleRequestCallback(referNames, eventLoopGroup, remoteAddr));
     }
 
     private void sleep(int seconds) {
@@ -154,8 +154,8 @@ public class Connections {
     }
 
     public void shutdown() {
-        TPE.shutdown();
         eventLoopGroup.shutdownGracefully();
+        CLIENT_EXECUTE_POOL.shutdown();
     }
 
 }

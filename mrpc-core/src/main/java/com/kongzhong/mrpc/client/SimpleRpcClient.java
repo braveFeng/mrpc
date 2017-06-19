@@ -66,6 +66,11 @@ public class SimpleRpcClient {
     protected String appId;
 
     /**
+     * 直连地址，开发时可配置，当配置了直连则不会走注册中心
+     */
+    protected String directUrl;
+
+    /**
      * 引用类名
      */
     protected List<Class<?>> referers = Lists.newArrayList();
@@ -171,7 +176,7 @@ public class SimpleRpcClient {
         if (null == inteceptor) {
             throw new RpcException("Inteceptor not is null");
         }
-        log.info("Add interceptor {}", inteceptor.toString());
+        log.info("Add interceptor [{}]", inteceptor.toString());
         this.inteceptors.add(inteceptor);
     }
 }

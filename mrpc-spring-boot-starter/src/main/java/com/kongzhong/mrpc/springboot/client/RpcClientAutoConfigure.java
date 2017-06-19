@@ -18,16 +18,16 @@ public class RpcClientAutoConfigure {
     private BootRpcClient bootRpcClient;
 
     @Bean
-//    @ConditionalOnBean(value = BootRpcClient.class)
+    @ConditionalOnBean(value = BootRpcClient.class)
     public RpcClientInitBean initBean() {
-        log.debug("Initializing client bean");
+        log.debug("Initializing rpc client bean");
         return new RpcClientInitBean(this.bootRpcClient);
     }
 
     @Bean
     @ConditionalOnBean(value = Referers.class)
     public BootRpcClient bootRpcClient() {
-        log.debug("Initializing spring boot client referers");
+        log.debug("Initializing rpc client referers");
         this.bootRpcClient = new BootRpcClient();
         return bootRpcClient;
     }
