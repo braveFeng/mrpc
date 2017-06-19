@@ -37,4 +37,5 @@ public @interface RpcService {
      */
     String appId() default "";
 
+    String serviceConfig() default "defaultConfig";
 }

@@ -74,6 +74,8 @@ public abstract class SimpleRpcClient {
 
     /**
      * 直连地址，开发时可配置，当配置了直连则不会走注册中心
+     * <p>
+     * 多个服务地址用逗号相隔 192.168.1.102:5066,192.168.1.103:5066
      */
     protected String directUrl;
 
@@ -163,24 +165,15 @@ public abstract class SimpleRpcClient {
      * 直连
      *
      * @param directUrl
+     * @param rpcInterface
      */
-    private void directConnect(String directUrl) {
-        Map<String, Set<String>> mappings = Maps.newHashMap();
-        referers.forEach(cls -> {
-            String serviceName = cls.getName();
-            if (!mappings.containsKey(directUrl)) {
-                mappings.put(directUrl, Sets.newHashSet(serviceName));
-            } else {
-                mappings.get(directUrl).add(serviceName);
-            }
-        });
-        Connections.me().updateNodes(mappings);
-    }
-
     private void directConnect(String directUrl, Class<?> rpcInterface) {
         Map<String, Set<String>> mappings = Maps.newHashMap();
         String serviceName = rpcInterface.getName();
-        mappings.put(directUrl, Sets.newHashSet(serviceName));
+        String[] directAddresses = directUrl.split(",");
+        for (String directAddress : directAddresses) {
+            mappings.put(directAddress, Sets.newHashSet(serviceName));
+        }
         Connections.me().updateNodes(mappings);
     }
 

@@ -31,4 +31,7 @@ public class RpcServerProperties {
     // 是否是测试环境, 为 "true" 时服务进程不会挂起
     private String test;
 
+    // 业务线程池前缀
+    private String poolName = "mrpc-server";
+
 }

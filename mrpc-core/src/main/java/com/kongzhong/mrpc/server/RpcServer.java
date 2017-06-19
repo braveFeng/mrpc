@@ -14,6 +14,12 @@ import org.springframework.context.ApplicationContextAware;
 
 import java.util.Map;
 
+/**
+ * 服务端和Spring整合实现
+ *
+ * @author biezhi
+ *         2017/4/19
+ */
 @Slf4j
 @Data
 @NoArgsConstructor
@@ -26,7 +32,6 @@ public class RpcServer extends SimpleRpcServer implements ApplicationContextAwar
     public RpcServer(String serverAddress, ServiceRegistry serviceRegistry) {
         super(serverAddress, serviceRegistry);
     }
-
 
     /**
      * ① 设置上下文
@@ -70,6 +75,5 @@ public class RpcServer extends SimpleRpcServer implements ApplicationContextAwar
     public void afterPropertiesSet() throws Exception {
         this.startServer();
     }
-
 
 }

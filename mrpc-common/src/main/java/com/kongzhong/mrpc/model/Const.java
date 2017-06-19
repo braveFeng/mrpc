@@ -20,9 +20,6 @@ public interface Const {
     // 测试环境
     String TEST_ENV = "mrpc.test=true";
 
-    // 服务线程池前缀
-    String THREAD_POOL_NAME = "mrpc-server";
-
     // 客户端传输协议
     String TRANSPORT_CLIENT = "mrpc.client.transport";
 

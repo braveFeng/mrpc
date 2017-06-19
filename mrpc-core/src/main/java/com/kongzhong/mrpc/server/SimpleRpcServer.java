@@ -29,9 +29,15 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 import static com.kongzhong.mrpc.model.Const.HEADER_REQUEST_ID;
 
+/**
+ * 抽象服务端请求处理器
+ *
+ * @author biezhi
+ *         2017/4/19
+ */
 @Slf4j
 @Data
-public class SimpleRpcServer {
+public abstract class SimpleRpcServer {
 
     /**
      * RPC服务映射
@@ -42,6 +48,11 @@ public class SimpleRpcServer {
      * rpc服务地址
      */
     protected String serverAddress;
+
+    /**
+     * 业务线程池前缀
+     */
+    private String poolName = "mrpc-server";
 
     /**
      * 弹性ip地址，不清楚可不填
@@ -115,7 +126,7 @@ public class SimpleRpcServer {
 
         transferSelector = new TransferSelector(serialize);
 
-        ThreadFactory threadRpcFactory = new NamedThreadFactory(Const.THREAD_POOL_NAME);
+        ThreadFactory threadRpcFactory = new NamedThreadFactory(poolName);
         int parallel = Runtime.getRuntime().availableProcessors() * 2;
 
         EventLoopGroup boss = new NioEventLoopGroup();
