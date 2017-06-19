@@ -1,7 +1,6 @@
 package com.kongzhong.mrpc.client;
 
 import com.kongzhong.mrpc.model.ClientBean;
-import com.kongzhong.mrpc.registry.DefaultDiscovery;
 import com.kongzhong.mrpc.registry.ServiceDiscovery;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +14,10 @@ import org.springframework.context.ConfigurableApplicationContext;
 import java.util.Map;
 
 /**
- * rpc客户端
+ * RPC客户端整合Spring的实现
+ *
+ * @author biezhi
+ *         2017/4/25
  */
 @Data
 @Slf4j
@@ -38,7 +40,6 @@ public class RpcClient extends SimpleRpcClient implements ApplicationContextAwar
 
         ConfigurableApplicationContext context = (ConfigurableApplicationContext) ctx;
         DefaultListableBeanFactory dbf = (DefaultListableBeanFactory) context.getBeanFactory();
-
         if (null != rpcClient && clientBeanMap != null && !clientBeanMap.isEmpty()) {
             clientBeanMap.values().forEach(bean -> {
                 String id = bean.getId();

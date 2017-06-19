@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  *         2017/5/15
  */
 @Slf4j
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.kongzhong.mrpc.server.service")
 public class ServerApplication {
 
     public static void main(String[] args) {

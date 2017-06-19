@@ -71,11 +71,9 @@ public class SimpleClientProxy<T> extends AbstractInvocationHandler {
 
         FastClass serviceFastClass = FastClass.create(proxy.getClass());
         FastMethod serviceFastMethod = serviceFastClass.getMethod(method);
-
         Invocation invocation = new Invocation(serviceFastMethod, proxy, args, request, interceptors);
         Object result = invocation.next();
         return result;
-
     }
 
 }

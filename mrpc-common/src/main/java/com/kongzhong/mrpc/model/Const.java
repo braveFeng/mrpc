@@ -29,6 +29,9 @@ public interface Const {
     // 客户端appId
     String APP_ID_CLIENT = "mrpc.client.appId";
 
+    // 客户端直连地址 ip:port
+    String CLIENT_DIRECT_URL = "mrpc.client.directUrl";
+
     // 客户端注册中心
     String REGSITRY_CLIENT = "mrpc.client.registry";
 
