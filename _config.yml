@@ -1,0 +1,38 @@
+title: mrpc
+subtitle: "一个轻量级分布式服务治理框架"
+description: "mrpc"
+author: 王爵nice
+language: cn
+timezone: UTC
+
+url: https://kongzhongfinance.github.io/mrpc
+root: /
+permalink: news/:year/:month/:day/:title/
+archive_dir: news
+code_dir: downloads/code
+new_post_name: :year-:month-:day-:title.md # File name of new posts
+post_asset_folder: true
+per_page: 0
+
+theme: navy
+deploy:
+  type: git
+  repo: git@github.com:KongzhongFinance/mrpc.github.io.git
+
+highlight:
+  enable: true
+  line_number: false
+
+disqus_shortname: mrpc
+google_analytics:
+google_adsense:
+fb_admins:
+algolia:
+  en:
+    api_key: c3d5d4c995b5e0c2ffb5623900279a66
+    index_name: hexo
+  zh-cn:
+    api_key: cdea7d4e47d84f6145b77e7f68689f35
+    index_name: hexo_zh-cn
+#twitter: hexojs
+github: KongzhongFinance/mrpc

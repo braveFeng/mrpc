@@ -1,59 +1,43 @@
-# mrpc document
+# Hexo Official Website
+<!-- Markdown snippet -->
+[![Build Status](https://travis-ci.org/hexojs/site.svg?branch=master)](https://travis-ci.org/hexojs/site)
 
+The website for Hexo. You can see the generated files at [hexojs/hexojs.github.io](https://github.com/hexojs/hexojs.github.io) repository.
 
-Welcome to contribute. Appreciate for any type of contribution。
+## Getting started
 
-## Development
+Install dependencies:
 
-### Requirements
+``` bash
+$ git clone https://github.com/hexojs/site.git
+$ cd site
+$ npm install
+```
 
-1. Node.js. Download [Node.js](https://nodejs.org/en/download/)
-2. Gulp Cli. Run `npm install --global gulp-cli`
-3. Project Dependencies. Run `npm install`
+Generate:
 
-### Running Up
+``` bash
+$ hexo generate
+```
 
-After all project dependencies have been resolved, run `gulp` in the project root directory to kick off a local server. 
-This server (using BrowserSync) will listen on port `3000`, visit `http://localhost:3000` to see the documentations.
+Run server:
 
-### Project Structure
+``` bash
+$ hexo server
+```
 
-Directory/File | Description |
-----------| ------------|
-app       | Application main directory which contains documentations and site assets |
- ├── assets| Site assets |
- ├── en    | English documentations |
- ├── templates| Documentation layouts |
- ├── uploads | Images used in documentations |
-gulp        | Gulp library |
- ├── dev-server-middleware | Middleware for BrowserSync |
- ├── tasks  | Gulp tasks |
-lib         | Application library |
- ├── tags  | Nunjunks tags used in documentations to ease writing |
- ├── configs.js | Parse config from `app/config.yaml` | 
- ├── renderer.js | Nunjunks Renderer |
- ├── utils.js | Various utilities |
-webpack     | Webpack configuration for different environments |
- ├── common.js | Webpack configuration for all environments |
- ├── dev.js | Webpack configuration of development |
- ├── pro.js | Webpack configuration of production |
-.editorconfig | EditorConfig configuration |
-.travis.yml  | Configuration for TravisCI |
-bower.json   | Front-end library dependency management |
-gulpfile.js  | Gulp tasks definition |
-package.json | Package Information |
-tsconfig.json | Typescript configuration file |
+## Contributors
 
-### Syntax Highlight Support of WebStorm for Nunjucks Template
+- English - [tommy351](https://github.com/tommy351)
+- 正體中文 - [tommy351](https://github.com/tommy351)
+- 简体中文 - [pinggod](https://github.com/pinggod), [Xuanwo](https://github.com/Xuanwo)
+- Русский - [twirlfog](https://github.com/twirlfog)
+- 한국어 - [lazyrodi](https://github.com/lazyrodi)
+- Deutschland - [philippnagel](https://github.com/philippnagel)
 
-To make WebStorm to recognize Nunjucks templates, follow the following steps:
+## License
 
-1. Install `Twig` Plugin from JetBrains Plugin Repository.
+[CC BY 4.0](http://creativecommons.org/licenses/by/4.0/)
 
-    ![Install Twig Plugin](install-twig.png "Install Twig Plugin")
-    
-2. Add Nunjucks template extension to the `Twig` file type.
-
-    ![Add File Type](install-twig-register.png "Add File Type")
-    
-    In this repo, `.njk` extension is used for Nunjucks Template, so add it to the `Registered Pattern`.
+[tommy351]: https://github.com/tommy351
+[pinggod]: https://github.com/pinggod
