@@ -1,52 +1,59 @@
-# mrpc (v2)
+# mrpc document
 
-## 特性
 
-- 调用透明
-- 高性能
-- 支持分布式(服务注册和发现)
-- 集成Spring/SpringBoot
-- 支持TCP/HTTP通讯
-- 负载均衡策略
-- 容错处理(FailOver/FailFast)
-- 拦截器处理, 插件式扩展
-- 客户端断线重连，自动恢复
-- 动态注册/卸载服务
-- 秒级监控
-- 服务调用链查看
+Welcome to contribute. Appreciate for any type of contribution。
 
-## 快速入门
+## Development
 
-### 创建服务端
+### Requirements
 
-```java
-public interface UserService {
-    String hello(String name);
-}
+1. Node.js. Download [Node.js](https://nodejs.org/en/download/)
+2. Gulp Cli. Run `npm install --global gulp-cli`
+3. Project Dependencies. Run `npm install`
 
-// 服务实现
-@RpcService
-public class UserServiceImpl implements UserService{
+### Running Up
+
+After all project dependencies have been resolved, run `gulp` in the project root directory to kick off a local server. 
+This server (using BrowserSync) will listen on port `3000`, visit `http://localhost:3000` to see the documentations.
+
+### Project Structure
+
+Directory/File | Description |
+----------| ------------|
+app       | Application main directory which contains documentations and site assets |
+ ├── assets| Site assets |
+ ├── en    | English documentations |
+ ├── templates| Documentation layouts |
+ ├── uploads | Images used in documentations |
+gulp        | Gulp library |
+ ├── dev-server-middleware | Middleware for BrowserSync |
+ ├── tasks  | Gulp tasks |
+lib         | Application library |
+ ├── tags  | Nunjunks tags used in documentations to ease writing |
+ ├── configs.js | Parse config from `app/config.yaml` | 
+ ├── renderer.js | Nunjunks Renderer |
+ ├── utils.js | Various utilities |
+webpack     | Webpack configuration for different environments |
+ ├── common.js | Webpack configuration for all environments |
+ ├── dev.js | Webpack configuration of development |
+ ├── pro.js | Webpack configuration of production |
+.editorconfig | EditorConfig configuration |
+.travis.yml  | Configuration for TravisCI |
+bower.json   | Front-end library dependency management |
+gulpfile.js  | Gulp tasks definition |
+package.json | Package Information |
+tsconfig.json | Typescript configuration file |
+
+### Syntax Highlight Support of WebStorm for Nunjucks Template
+
+To make WebStorm to recognize Nunjucks templates, follow the following steps:
+
+1. Install `Twig` Plugin from JetBrains Plugin Repository.
+
+    ![Install Twig Plugin](install-twig.png "Install Twig Plugin")
     
-    @Override
-    public String sayHello(String name){
-        return "Hello " + name;
-    }
+2. Add Nunjucks template extension to the `Twig` file type.
+
+    ![Add File Type](install-twig-register.png "Add File Type")
     
-}
-```
-
-### 更多例子
-
-[这里](/mrpc-demo)有更多的使用案例。
-
-### 更新日志
-
-#### 0.0.7-SNAPSHOT (2017/06/22)
-
-1. 增加多注册中心配置
-2. 增加单个服务更小粒度配置
-3. 增加直连服务选项
-4. 修复方法泛型入参/返回值
-5. 客户端增加拦截器
-6. 增加 `mrpc` sehema 配置项
+    In this repo, `.njk` extension is used for Nunjucks Template, so add it to the `Registered Pattern`.
